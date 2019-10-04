@@ -201,7 +201,7 @@ class MoveDownFoldFix extends MoveByScreenLineMaintainDesiredColumn {
 
 @RegisterAction
 class MoveDown extends BaseMovement {
-  keys = ['j'];
+  keys = ['n'];
   doesntChangeDesiredColumn = true;
 
   public async execAction(position: Position, vimState: VimState): Promise<Position | IMovement> {
@@ -224,7 +224,7 @@ class MoveDownArrow extends MoveDown {
 
 @RegisterAction
 class MoveUp extends BaseMovement {
-  keys = ['k'];
+  keys = ['i'];
   doesntChangeDesiredColumn = true;
 
   public async execAction(position: Position, vimState: VimState): Promise<Position | IMovement> {
@@ -322,7 +322,7 @@ class RightArrowInReplaceMode extends ArrowsInReplaceMode {
 
 @RegisterAction
 class CommandNextSearchMatch extends BaseMovement {
-  keys = ['n'];
+  keys = ['h'];
   isJump = true;
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
@@ -352,7 +352,7 @@ class CommandNextSearchMatch extends BaseMovement {
 
 @RegisterAction
 class CommandPreviousSearchMatch extends BaseMovement {
-  keys = ['N'];
+  keys = ['H'];
   isJump = true;
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
@@ -408,7 +408,7 @@ export class MarkMovement extends BaseMovement {
 }
 @RegisterAction
 export class MoveLeft extends BaseMovement {
-  keys = ['h'];
+  keys = ['y'];
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
     if (shouldWrapKey(vimState, this.keysPressed)) {
@@ -436,7 +436,7 @@ class BackSpaceInNormalMode extends BaseMovement {
 
 @RegisterAction
 class MoveRight extends BaseMovement {
-  keys = ['l'];
+  keys = ['o'];
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
     if (shouldWrapKey(vimState, this.keysPressed)) {
@@ -600,7 +600,7 @@ class MoveFindBackward extends BaseMovement {
 
 @RegisterAction
 class MoveTilForward extends BaseMovement {
-  keys = ['t', '<character>'];
+  keys = ['q', '<character>'];
 
   public async execActionWithCount(
     position: Position,
@@ -638,7 +638,7 @@ class MoveTilForward extends BaseMovement {
 
 @RegisterAction
 class MoveTilBackward extends BaseMovement {
-  keys = ['T', '<character>'];
+  keys = ['Q', '<character>'];
 
   public async execActionWithCount(
     position: Position,
@@ -672,7 +672,7 @@ class MoveTilBackward extends BaseMovement {
 
 @RegisterAction
 class MoveRepeat extends BaseMovement {
-  keys = [';'];
+  keys = ['L'];
 
   public async execActionWithCount(
     position: Position,
@@ -689,7 +689,7 @@ class MoveRepeat extends BaseMovement {
 
 @RegisterAction
 class MoveRepeatReversed extends BaseMovement {
-  keys = [','];
+  keys = ['R'];
 
   public async execActionWithCount(
     position: Position,
@@ -844,7 +844,7 @@ class MoveUpByScreenLineVisualBlock extends BaseMovement {
 @RegisterAction
 class MoveDownByScreenLineVisualBlock extends BaseMovement {
   modes = [ModeName.VisualBlock];
-  keys = [['g', 'j'], ['g', '<down>']];
+  keys = [['g', 'n'], ['g', '<down>']];
   doesntChangeDesiredColumn = true;
 
   public async execAction(position: Position, vimState: VimState): Promise<Position | IMovement> {
@@ -857,74 +857,74 @@ class MoveDownByScreenLineVisualBlock extends BaseMovement {
   }
 }
 
-@RegisterAction
-class MoveScreenToRight extends MoveByScreenLine {
-  modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
-  keys = ['z', 'h'];
-  movementType: CursorMovePosition = 'right';
-  by: CursorMoveByUnit = 'character';
-  value = 1;
+// @RegisterAction
+// class MoveScreenToRight extends MoveByScreenLine {
+//   modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
+//   keys = ['z', 'h'];
+//   movementType: CursorMovePosition = 'right';
+//   by: CursorMoveByUnit = 'character';
+//   value = 1;
 
-  public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
-    // Don't run if there's an operator because the Sneak plugin uses <operator>z
-    return (
-      super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
-    );
-  }
-}
+//   public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
+//     // Don't run if there's an operator because the Sneak plugin uses <operator>z
+//     return (
+//       super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
+//     );
+//   }
+// }
 
-@RegisterAction
-class MoveScreenToLeft extends MoveByScreenLine {
-  modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
-  keys = ['z', 'l'];
-  movementType: CursorMovePosition = 'left';
-  by: CursorMoveByUnit = 'character';
-  value = 1;
+// @RegisterAction
+// class MoveScreenToLeft extends MoveByScreenLine {
+//   modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
+//   keys = ['z', 'l'];
+//   movementType: CursorMovePosition = 'left';
+//   by: CursorMoveByUnit = 'character';
+//   value = 1;
 
-  public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
-    // Don't run if there's an operator because the Sneak plugin uses <operator>z
-    return (
-      super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
-    );
-  }
-}
+//   public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
+//     // Don't run if there's an operator because the Sneak plugin uses <operator>z
+//     return (
+//       super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
+//     );
+//   }
+// }
 
-@RegisterAction
-class MoveScreenToRightHalf extends MoveByScreenLine {
-  modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
-  keys = ['z', 'H'];
-  movementType: CursorMovePosition = 'right';
-  by: CursorMoveByUnit = 'halfLine';
-  value = 1;
+// @RegisterAction
+// class MoveScreenToRightHalf extends MoveByScreenLine {
+//   modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
+//   keys = ['z', 'H'];
+//   movementType: CursorMovePosition = 'right';
+//   by: CursorMoveByUnit = 'halfLine';
+//   value = 1;
 
-  public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
-    // Don't run if there's an operator because the Sneak plugin uses <operator>z
-    return (
-      super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
-    );
-  }
-}
+//   public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
+//     // Don't run if there's an operator because the Sneak plugin uses <operator>z
+//     return (
+//       super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
+//     );
+//   }
+// }
 
-@RegisterAction
-class MoveScreenToLeftHalf extends MoveByScreenLine {
-  modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
-  keys = ['z', 'L'];
-  movementType: CursorMovePosition = 'left';
-  by: CursorMoveByUnit = 'halfLine';
-  value = 1;
-  isJump = true;
+// @RegisterAction
+// class MoveScreenToLeftHalf extends MoveByScreenLine {
+//   modes = [ModeName.Insert, ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
+//   keys = ['z', 'L'];
+//   movementType: CursorMovePosition = 'left';
+//   by: CursorMoveByUnit = 'halfLine';
+//   value = 1;
+//   isJump = true;
 
-  public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
-    // Don't run if there's an operator because the Sneak plugin uses <operator>z
-    return (
-      super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
-    );
-  }
-}
+//   public doesActionApply(vimState: VimState, keysPressed: string[]): boolean {
+//     // Don't run if there's an operator because the Sneak plugin uses <operator>z
+//     return (
+//       super.doesActionApply(vimState, keysPressed) && vimState.recordedState.operator === undefined
+//     );
+//   }
+// }
 
 @RegisterAction
 class MoveToLineFromViewPortTop extends MoveByScreenLine {
-  keys = ['H'];
+  keys = ['<C-i>'];
   movementType: CursorMovePosition = 'viewPortTop';
   by: CursorMoveByUnit = 'line';
   value = 1;
@@ -942,7 +942,7 @@ class MoveToLineFromViewPortTop extends MoveByScreenLine {
 
 @RegisterAction
 class MoveToLineFromViewPortBottom extends MoveByScreenLine {
-  keys = ['L'];
+  keys = ['<C-n>'];
   movementType: CursorMovePosition = 'viewPortBottom';
   by: CursorMoveByUnit = 'line';
   value = 1;
@@ -960,7 +960,7 @@ class MoveToLineFromViewPortBottom extends MoveByScreenLine {
 
 @RegisterAction
 class MoveToMiddleLineInViewPort extends MoveByScreenLine {
-  keys = ['M'];
+  keys = ['<C-m>'];
   movementType: CursorMovePosition = 'viewPortCenter';
   by: CursorMoveByUnit = 'line';
   isJump = true;
@@ -975,25 +975,25 @@ class MoveNonBlank extends BaseMovement {
   }
 }
 
-@RegisterAction
-class MoveNextLineNonBlank extends BaseMovement {
-  keys = ['\n'];
+// @RegisterAction
+// class MoveNextLineNonBlank extends BaseMovement {
+//   keys = ['\n'];
 
-  public async execActionWithCount(
-    position: Position,
-    vimState: VimState,
-    count: number
-  ): Promise<Position> {
-    vimState.currentRegisterMode = RegisterMode.LineWise;
+//   public async execActionWithCount(
+//     position: Position,
+//     vimState: VimState,
+//     count: number
+//   ): Promise<Position> {
+//     vimState.currentRegisterMode = RegisterMode.LineWise;
 
-    // Count === 0 if just pressing enter in normal mode, need to still go down 1 line
-    if (count === 0) {
-      count++;
-    }
+//     // Count === 0 if just pressing enter in normal mode, need to still go down 1 line
+//     if (count === 0) {
+//       count++;
+//     }
 
-    return position.getDownByCount(count).getFirstLineNonBlankChar();
-  }
-}
+//     return position.getDownByCount(count).getFirstLineNonBlankChar();
+//   }
+// }
 
 @RegisterAction
 class MoveNonBlankFirst extends BaseMovement {
@@ -1127,7 +1127,7 @@ class MoveFullWordBegin extends BaseMovement {
 
 @RegisterAction
 class MoveWordEnd extends BaseMovement {
-  keys = ['e'];
+  keys = ['d'];
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
     return position.getCurrentWordEnd();
@@ -1142,7 +1142,7 @@ class MoveWordEnd extends BaseMovement {
 
 @RegisterAction
 class MoveFullWordEnd extends BaseMovement {
-  keys = ['E'];
+  keys = ['D'];
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
     return position.getCurrentBigWordEnd();
@@ -1155,7 +1155,7 @@ class MoveFullWordEnd extends BaseMovement {
 
 @RegisterAction
 class MoveLastWordEnd extends BaseMovement {
-  keys = ['g', 'e'];
+  keys = ['g', 'd'];
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
     return position.getLastWordEnd();
@@ -1164,7 +1164,7 @@ class MoveLastWordEnd extends BaseMovement {
 
 @RegisterAction
 class MoveLastFullWordEnd extends BaseMovement {
-  keys = ['g', 'E'];
+  keys = ['g', 'D'];
 
   public async execAction(position: Position, vimState: VimState): Promise<Position> {
     return position.getLastBigWordEnd();
@@ -1441,19 +1441,19 @@ export abstract class MoveInsideCharacter extends ExpandingSelection {
 
 @RegisterAction
 class MoveIParentheses extends MoveInsideCharacter {
-  keys = ['i', '('];
+  keys = ['u', '('];
   charToMatch = '(';
 }
 
 @RegisterAction
 class MoveIClosingParentheses extends MoveInsideCharacter {
-  keys = ['i', ')'];
+  keys = ['u', ')'];
   charToMatch = '(';
 }
 
 @RegisterAction
 class MoveIClosingParenthesesBlock extends MoveInsideCharacter {
-  keys = ['i', 'b'];
+  keys = ['u', 'b'];
   charToMatch = '(';
 }
 
@@ -1480,19 +1480,19 @@ class MoveAParenthesesBlock extends MoveInsideCharacter {
 
 @RegisterAction
 class MoveICurlyBrace extends MoveInsideCharacter {
-  keys = ['i', '{'];
+  keys = ['u', '{'];
   charToMatch = '{';
 }
 
 @RegisterAction
 class MoveIClosingCurlyBrace extends MoveInsideCharacter {
-  keys = ['i', '}'];
+  keys = ['u', '}'];
   charToMatch = '{';
 }
 
 @RegisterAction
 class MoveIClosingCurlyBraceBlock extends MoveInsideCharacter {
-  keys = ['i', 'B'];
+  keys = ['u', 'B'];
   charToMatch = '{';
 }
 
@@ -1519,13 +1519,13 @@ class MoveAClosingCurlyBraceBlock extends MoveInsideCharacter {
 
 @RegisterAction
 class MoveICaret extends MoveInsideCharacter {
-  keys = ['i', '<'];
+  keys = ['u', '<'];
   charToMatch = '<';
 }
 
 @RegisterAction
 class MoveIClosingCaret extends MoveInsideCharacter {
-  keys = ['i', '>'];
+  keys = ['u', '>'];
   charToMatch = '<';
 }
 
@@ -1545,13 +1545,13 @@ class MoveAClosingCaret extends MoveInsideCharacter {
 
 @RegisterAction
 class MoveISquareBracket extends MoveInsideCharacter {
-  keys = ['i', '['];
+  keys = ['u', '['];
   charToMatch = '[';
 }
 
 @RegisterAction
 class MoveIClosingSquareBraket extends MoveInsideCharacter {
-  keys = ['i', ']'];
+  keys = ['u', ']'];
   charToMatch = '[';
 }
 
@@ -1647,7 +1647,7 @@ export class MoveASingleQuotes extends MoveQuoteMatch {
 
 @RegisterAction
 class MoveInsideDoubleQuotes extends MoveQuoteMatch {
-  keys = ['i', '"'];
+  keys = ['u', '"'];
   charToMatch = '"';
   includeSurrounding = false;
 }
@@ -1661,7 +1661,7 @@ export class MoveADoubleQuotes extends MoveQuoteMatch {
 
 @RegisterAction
 class MoveInsideBacktick extends MoveQuoteMatch {
-  keys = ['i', '`'];
+  keys = ['u', '`'];
   charToMatch = '`';
   includeSurrounding = false;
 }
@@ -1819,7 +1819,7 @@ abstract class MoveTagMatch extends ExpandingSelection {
 
 @RegisterAction
 export class MoveInsideTag extends MoveTagMatch {
-  keys = ['i', 't'];
+  keys = ['u', 't'];
   includeTag = false;
 }
 

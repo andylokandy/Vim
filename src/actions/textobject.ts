@@ -255,7 +255,7 @@ export class SelectAnExpandingBlock extends ExpandingSelection {
 @RegisterAction
 export class SelectInnerWord extends TextObjectMovement {
   modes = [ModeName.Normal, ModeName.Visual];
-  keys = ['i', 'w'];
+  keys = ['u', 'w'];
 
   public async execAction(position: Position, vimState: VimState): Promise<IMovement> {
     let start: Position;
@@ -296,7 +296,7 @@ export class SelectInnerWord extends TextObjectMovement {
 @RegisterAction
 export class SelectInnerBigWord extends TextObjectMovement {
   modes = [ModeName.Normal, ModeName.Visual];
-  keys = ['i', 'W'];
+  keys = ['u', 'W'];
 
   public async execAction(position: Position, vimState: VimState): Promise<IMovement> {
     let start: Position;
@@ -393,7 +393,7 @@ export class SelectSentence extends TextObjectMovement {
 
 @RegisterAction
 export class SelectInnerSentence extends TextObjectMovement {
-  keys = ['i', 's'];
+  keys = ['u', 's'];
 
   public async execAction(position: Position, vimState: VimState): Promise<IMovement> {
     let start: Position;
@@ -436,7 +436,7 @@ export class SelectInnerSentence extends TextObjectMovement {
 
 @RegisterAction
 export class SelectParagraph extends TextObjectMovement {
-  keys = ['a', 'p'];
+  keys = ['u', 'p'];
 
   public async execAction(position: Position, vimState: VimState): Promise<IMovement> {
     vimState.currentRegisterMode = RegisterMode.LineWise;
@@ -470,7 +470,7 @@ export class SelectParagraph extends TextObjectMovement {
 
 @RegisterAction
 export class SelectInnerParagraph extends TextObjectMovement {
-  keys = ['i', 'p'];
+  keys = ['u', 'p'];
 
   public async execAction(position: Position, vimState: VimState): Promise<IMovement> {
     vimState.currentRegisterMode = RegisterMode.LineWise;
@@ -627,7 +627,7 @@ abstract class IndentObjectMatch extends TextObjectMovement {
 
 @RegisterAction
 class InsideIndentObject extends IndentObjectMatch {
-  keys = ['i', 'i'];
+  keys = ['u', 'i'];
 }
 
 @RegisterAction

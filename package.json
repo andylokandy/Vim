@@ -199,6 +199,11 @@
         "when": "editorTextFocus && vim.active && vim.use<C-i> && !inDebugRepl"
       },
       {
+        "key": "ctrl+m",
+        "command": "extension.vim_ctrl+m",
+        "when": "editorTextFocus && vim.active && vim.use<C-m> && !inDebugRepl"
+      },
+      {
         "key": "ctrl+j",
         "command": "extension.vim_ctrl+j",
         "when": "editorTextFocus && vim.active && vim.use<C-j> && !inDebugRepl"
@@ -214,9 +219,14 @@
         "when": "editorTextFocus && vim.active && vim.use<C-l> && !inDebugRepl"
       },
       {
+        "key": "ctrl+;",
+        "command": "extension.vim_navigateCtrlSemi",
+        "when": "editorTextFocus && vim.active && vim.use<C-;> && !inDebugRepl"
+      },
+      {
         "key": "ctrl+n",
         "command": "extension.vim_ctrl+n",
-        "when": "editorTextFocus && vim.active && vim.use<C-n> && !inDebugRepl || vim.mode == 'CommandlineInProgress' && vim.active && vim.use<C-n> && !inDebugRepl || vim.mode == 'SearchInProgressMode' && vim.active && vim.use<C-n> && !inDebugRepl"
+        "when": "editorTextFocus && vim.active && vim.use<C-l> && !inDebugRepl"
       },
       {
         "key": "ctrl+o",
@@ -339,17 +349,17 @@
         "when": "editorTextFocus && vim.active && vim.use<D-v> && vim.overrideCmdV && !inDebugRepl"
       },
       {
-        "key": "ctrl+alt+down",
-        "linux": "shift+alt+down",
-        "mac": "cmd+alt+down",
-        "command": "extension.vim_cmd+alt+down",
+        "key": "ctrl+alt+n",
+        "linux": "shift+alt+n",
+        "mac": "cmd+alt+n",
+        "command": "extension.vim_cmd+alt+n",
         "when": "editorTextFocus && vim.active && !inDebugRepl"
       },
       {
-        "key": "ctrl+alt+up",
-        "linux": "shift+alt+up",
-        "mac": "cmd+alt+up",
-        "command": "extension.vim_cmd+alt+up",
+        "key": "ctrl+alt+i",
+        "linux": "shift+alt+i",
+        "mac": "cmd+alt+i",
+        "command": "extension.vim_cmd+alt+i",
         "when": "editorTextFocus && vim.active && !inDebugRepl"
       }
     ],

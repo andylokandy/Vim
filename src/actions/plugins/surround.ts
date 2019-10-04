@@ -419,12 +419,12 @@ export class CommandSurroundAddToReplacement extends BaseCommand {
     if (startReplace.length === 1 && startReplace in PairMatcher.pairings) {
       endReplace = PairMatcher.pairings[startReplace].match;
 
-      if (!PairMatcher.pairings[startReplace].isNextMatchForward) {
-        [startReplace, endReplace] = [endReplace, startReplace];
-      } else {
-        startReplace = startReplace + ' ';
-        endReplace = ' ' + endReplace;
-      }
+      // if (!PairMatcher.pairings[startReplace].isNextMatchForward) {
+      //   [startReplace, endReplace] = [endReplace, startReplace];
+      // } else {
+      //   startReplace = startReplace + ' ';
+      //   endReplace = ' ' + endReplace;
+      // }
     }
 
     return { startReplace, endReplace };

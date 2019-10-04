@@ -632,16 +632,16 @@ class CommandCtrlVInInsertMode extends BaseCommand {
   }
 }
 
-@RegisterAction
-class CommandShowLineAutocomplete extends BaseCommand {
-  modes = [ModeName.Insert];
-  keys = ['<C-x>', '<C-l>'];
-  runsOnceForEveryCursor() {
-    return false;
-  }
+// @RegisterAction
+// class CommandShowLineAutocomplete extends BaseCommand {
+//   modes = [ModeName.Insert];
+//   keys = ['<C-x>', '<C-l>'];
+//   runsOnceForEveryCursor() {
+//     return false;
+//   }
 
-  public async exec(position: Position, vimState: VimState): Promise<VimState> {
-    await lineCompletionProvider.showLineCompletionsQuickPick(position, vimState);
-    return vimState;
-  }
-}
+//   public async exec(position: Position, vimState: VimState): Promise<VimState> {
+//     await lineCompletionProvider.showLineCompletionsQuickPick(position, vimState);
+//     return vimState;
+//   }
+// }

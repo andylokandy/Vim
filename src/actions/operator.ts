@@ -119,7 +119,7 @@ export class BaseOperator extends BaseAction {
 
 @RegisterAction
 export class DeleteOperator extends BaseOperator {
-  public keys = ['d'];
+  public keys = ['x'];
   public modes = [ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
 
   /**
@@ -240,7 +240,7 @@ export class DeleteOperator extends BaseOperator {
 
 @RegisterAction
 export class DeleteOperatorVisual extends BaseOperator {
-  public keys = ['D'];
+  public keys = ['X'];
   public modes = [ModeName.Visual, ModeName.VisualLine];
 
   public async run(vimState: VimState, start: Position, end: Position): Promise<VimState> {
@@ -254,7 +254,7 @@ export class DeleteOperatorVisual extends BaseOperator {
 
 @RegisterAction
 export class YankOperator extends BaseOperator {
-  public keys = ['y'];
+  public keys = ['c'];
   public modes = [ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
   canBeRepeatedWithDot = false;
 
@@ -328,7 +328,7 @@ export class YankOperator extends BaseOperator {
 
 @RegisterAction
 export class ShiftYankOperatorVisual extends BaseOperator {
-  public keys = ['Y'];
+  public keys = ['C'];
   public modes = [ModeName.Visual, ModeName.VisualLine, ModeName.VisualBlock];
 
   public async run(vimState: VimState, start: Position, end: Position): Promise<VimState> {
@@ -340,7 +340,7 @@ export class ShiftYankOperatorVisual extends BaseOperator {
 
 @RegisterAction
 export class DeleteOperatorXVisual extends BaseOperator {
-  public keys = [['x'], ['<Del>']];
+  public keys = [['k'], ['<Del>']];
   public modes = [ModeName.Visual, ModeName.VisualLine];
 
   public async run(vimState: VimState, start: Position, end: Position): Promise<VimState> {
@@ -587,7 +587,7 @@ class OutdentOperatorInVisualModesIsAWeirdSpecialCase extends BaseOperator {
 
 @RegisterAction
 export class ChangeOperator extends BaseOperator {
-  public keys = ['c'];
+  public keys = ['t'];
   public modes = [ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
 
   public async run(vimState: VimState, start: Position, end: Position): Promise<VimState> {
@@ -666,7 +666,7 @@ export class ChangeOperator extends BaseOperator {
 
 @RegisterAction
 export class YankVisualBlockMode extends BaseOperator {
-  public keys = ['y'];
+  public keys = ['c'];
   public modes = [ModeName.VisualBlock];
   canBeRepeatedWithDot = false;
   runsOnceForEveryCursor() {
