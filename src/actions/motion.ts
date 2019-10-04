@@ -600,7 +600,7 @@ class MoveFindBackward extends BaseMovement {
 
 @RegisterAction
 class MoveTilForward extends BaseMovement {
-  keys = ['q', '<character>'];
+  keys = ['k', '<character>'];
 
   public async execActionWithCount(
     position: Position,
@@ -638,7 +638,7 @@ class MoveTilForward extends BaseMovement {
 
 @RegisterAction
 class MoveTilBackward extends BaseMovement {
-  keys = ['Q', '<character>'];
+  keys = ['K', '<character>'];
 
   public async execActionWithCount(
     position: Position,

@@ -25,7 +25,7 @@ import { Clipboard } from '../../util/clipboard';
 @RegisterAction
 class CommandEscInsertMode extends BaseCommand {
   modes = [ModeName.Insert];
-  keys = [['<Esc>'], ['<C-c>'], ['<C-[>']];
+  keys = [['<Esc>'], ['<C-[>']];
 
   runsOnceForEveryCursor() {
     return false;

@@ -3456,7 +3456,7 @@ class CommandTabPrevious extends BaseTabCommand {
 @RegisterAction
 export class ActionDeleteChar extends BaseCommand {
   modes = [ModeName.Normal];
-  keys = ['k'];
+  keys = ['q'];
   canBeRepeatedWithDot = true;
 
   public async exec(position: Position, vimState: VimState): Promise<VimState> {
@@ -3504,7 +3504,7 @@ export class ActionDeleteCharWithDeleteKey extends BaseCommand {
 @RegisterAction
 export class ActionDeleteLastChar extends BaseCommand {
   modes = [ModeName.Normal];
-  keys = ['K'];
+  keys = ['Q'];
   canBeRepeatedWithDot = true;
 
   public async exec(position: Position, vimState: VimState): Promise<VimState> {
@@ -3976,7 +3976,7 @@ class ActionJoinNoWhitespaceVisualMode extends BaseCommand {
 @RegisterAction
 class ActionXVisualBlock extends BaseCommand {
   modes = [ModeName.VisualBlock];
-  keys = ['k'];
+  keys = ['q'];
   canBeRepeatedWithDot = true;
   runsOnceForEveryCursor() {
     return false;
@@ -4262,7 +4262,7 @@ class ActionGoToInsertVisualBlockModeAppend extends BaseCommand {
 @RegisterAction
 class ActionDeleteLineVisualMode extends BaseCommand {
   modes = [ModeName.Visual, ModeName.VisualLine];
-  keys = ['K'];
+  keys = ['Q'];
 
   public async exec(position: Position, vimState: VimState): Promise<VimState> {
     if (vimState.currentMode === ModeName.Visual) {

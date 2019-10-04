@@ -159,11 +159,6 @@
         "when": "editorTextFocus && vim.active && vim.use<C-b> && vim.mode != 'Insert' && !inDebugRepl"
       },
       {
-        "key": "ctrl+c",
-        "command": "extension.vim_ctrl+c",
-        "when": "editorTextFocus && vim.active && vim.use<C-c> && !inDebugRepl && vim.overrideCtrlC"
-      },
-      {
         "key": "ctrl+d",
         "command": "extension.vim_ctrl+d",
         "when": "editorTextFocus && vim.active && !inDebugRepl"
@@ -177,11 +172,6 @@
         "key": "ctrl+e",
         "command": "extension.vim_ctrl+e",
         "when": "editorTextFocus && vim.active && vim.use<C-e> && !inDebugRepl"
-      },
-      {
-        "key": "ctrl+f",
-        "command": "extension.vim_ctrl+f",
-        "when": "editorTextFocus && vim.active && vim.use<C-f> && vim.mode != 'Insert' && !inDebugRepl"
       },
       {
         "key": "ctrl+g",

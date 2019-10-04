@@ -340,7 +340,7 @@ export class ShiftYankOperatorVisual extends BaseOperator {
 
 @RegisterAction
 export class DeleteOperatorXVisual extends BaseOperator {
-  public keys = [['k'], ['<Del>']];
+  public keys = [['q'], ['<Del>']];
   public modes = [ModeName.Visual, ModeName.VisualLine];
 
   public async run(vimState: VimState, start: Position, end: Position): Promise<VimState> {
@@ -805,254 +805,254 @@ export class CommentBlockOperator extends BaseOperator {
   }
 }
 
-interface CommentTypeSingle {
-  singleLine: true;
+// interface CommentTypeSingle {
+//   singleLine: true;
 
-  start: string;
-}
+//   start: string;
+// }
 
-interface CommentTypeMultiLine {
-  singleLine: false;
+// interface CommentTypeMultiLine {
+//   singleLine: false;
 
-  start: string;
-  inner: string;
-  final: string;
-}
+//   start: string;
+//   inner: string;
+//   final: string;
+// }
 
-type CommentType = CommentTypeSingle | CommentTypeMultiLine;
+// type CommentType = CommentTypeSingle | CommentTypeMultiLine;
 
-@RegisterAction
-class ActionVisualReflowParagraph extends BaseOperator {
-  modes = [ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
-  keys = ['g', 'q'];
+// @RegisterAction
+// class ActionVisualReflowParagraph extends BaseOperator {
+//   modes = [ModeName.Normal, ModeName.Visual, ModeName.VisualLine];
+//   keys = ['g', 'q'];
 
-  public static CommentTypes: CommentType[] = [
-    { singleLine: false, start: '/**', inner: '*', final: '*/' },
-    { singleLine: false, start: '/*', inner: '*', final: '*/' },
-    { singleLine: false, start: '{-', inner: '-', final: '-}' },
-    { singleLine: true, start: '///' },
-    { singleLine: true, start: '//' },
-    { singleLine: true, start: '--' },
-    { singleLine: true, start: '#' },
-    { singleLine: true, start: ';' },
-    { singleLine: true, start: '*' },
+//   public static CommentTypes: CommentType[] = [
+//     { singleLine: false, start: '/**', inner: '*', final: '*/' },
+//     { singleLine: false, start: '/*', inner: '*', final: '*/' },
+//     { singleLine: false, start: '{-', inner: '-', final: '-}' },
+//     { singleLine: true, start: '///' },
+//     { singleLine: true, start: '//' },
+//     { singleLine: true, start: '--' },
+//     { singleLine: true, start: '#' },
+//     { singleLine: true, start: ';' },
+//     { singleLine: true, start: '*' },
 
-    // Needs to come last, since everything starts with the emtpy string!
-    { singleLine: true, start: '' },
-  ];
+//     // Needs to come last, since everything starts with the emtpy string!
+//     { singleLine: true, start: '' },
+//   ];
 
-  public getIndentation(s: string): string {
-    // Use the indentation of the first non-whitespace line, if any such line is
-    // selected.
-    for (const line of s.split('\n')) {
-      const result = line.match(/^\s+/g);
-      const indent = result ? result[0] : '';
+//   public getIndentation(s: string): string {
+//     // Use the indentation of the first non-whitespace line, if any such line is
+//     // selected.
+//     for (const line of s.split('\n')) {
+//       const result = line.match(/^\s+/g);
+//       const indent = result ? result[0] : '';
 
-      if (indent !== line) {
-        return indent;
-      }
-    }
+//       if (indent !== line) {
+//         return indent;
+//       }
+//     }
 
-    return '';
-  }
+//     return '';
+//   }
 
-  public reflowParagraph(s: string, indent: string): string {
-    let indentLevel = 0;
-    for (const char of indent) {
-      indentLevel += char === '\t' ? configuration.tabstop : 1;
-    }
-    const maximumLineLength = configuration.textwidth - indentLevel - 2;
+//   public reflowParagraph(s: string, indent: string): string {
+//     let indentLevel = 0;
+//     for (const char of indent) {
+//       indentLevel += char === '\t' ? configuration.tabstop : 1;
+//     }
+//     const maximumLineLength = configuration.textwidth - indentLevel - 2;
 
-    // Chunk the lines by commenting style.
+//     // Chunk the lines by commenting style.
 
-    let chunksToReflow: {
-      commentType: CommentType;
-      content: string;
-      indentLevelAfterComment: number;
-    }[] = [];
+//     let chunksToReflow: {
+//       commentType: CommentType;
+//       content: string;
+//       indentLevelAfterComment: number;
+//     }[] = [];
 
-    for (const line of s.split('\n')) {
-      let lastChunk: { commentType: CommentType; content: string } | undefined =
-        chunksToReflow[chunksToReflow.length - 1];
-      const trimmedLine = line.trim();
+//     for (const line of s.split('\n')) {
+//       let lastChunk: { commentType: CommentType; content: string } | undefined =
+//         chunksToReflow[chunksToReflow.length - 1];
+//       const trimmedLine = line.trim();
 
-      // See what comment type they are using.
+//       // See what comment type they are using.
 
-      let commentType: CommentType | undefined;
+//       let commentType: CommentType | undefined;
 
-      for (const type of ActionVisualReflowParagraph.CommentTypes) {
-        if (line.trim().startsWith(type.start)) {
-          commentType = type;
+//       for (const type of ActionVisualReflowParagraph.CommentTypes) {
+//         if (line.trim().startsWith(type.start)) {
+//           commentType = type;
 
-          break;
-        }
+//           break;
+//         }
 
-        // If they're currently in a multiline comment, see if they continued it.
-        if (lastChunk && type.start === lastChunk.commentType.start && !type.singleLine) {
-          if (line.trim().startsWith(type.inner)) {
-            commentType = type;
+//         // If they're currently in a multiline comment, see if they continued it.
+//         if (lastChunk && type.start === lastChunk.commentType.start && !type.singleLine) {
+//           if (line.trim().startsWith(type.inner)) {
+//             commentType = type;
 
-            break;
-          }
+//             break;
+//           }
 
-          if (line.trim().endsWith(type.final)) {
-            commentType = type;
+//           if (line.trim().endsWith(type.final)) {
+//             commentType = type;
 
-            break;
-          }
-        }
-      }
+//             break;
+//           }
+//         }
+//       }
 
-      if (!commentType) {
-        break;
-      } // will never happen, just to satisfy typechecker.
+//       if (!commentType) {
+//         break;
+//       } // will never happen, just to satisfy typechecker.
 
-      // Did they start a new comment type?
-      if (!lastChunk || commentType.start !== lastChunk.commentType.start) {
-        let chunk = {
-          commentType,
-          content: `${trimmedLine.substr(commentType.start.length).trim()}`,
-          indentLevelAfterComment: 0,
-        };
-        if (commentType.singleLine) {
-          chunk.indentLevelAfterComment =
-            trimmedLine.substr(commentType.start.length).length - chunk.content.length;
-        }
-        chunksToReflow.push(chunk);
+//       // Did they start a new comment type?
+//       if (!lastChunk || commentType.start !== lastChunk.commentType.start) {
+//         let chunk = {
+//           commentType,
+//           content: `${trimmedLine.substr(commentType.start.length).trim()}`,
+//           indentLevelAfterComment: 0,
+//         };
+//         if (commentType.singleLine) {
+//           chunk.indentLevelAfterComment =
+//             trimmedLine.substr(commentType.start.length).length - chunk.content.length;
+//         }
+//         chunksToReflow.push(chunk);
 
-        continue;
-      }
+//         continue;
+//       }
 
-      // Parse out commenting style, gather words.
+//       // Parse out commenting style, gather words.
 
-      lastChunk = chunksToReflow[chunksToReflow.length - 1];
+//       lastChunk = chunksToReflow[chunksToReflow.length - 1];
 
-      if (lastChunk.commentType.singleLine) {
-        // is it a continuation of a comment like "//"
-        lastChunk.content += `\n${trimmedLine.substr(lastChunk.commentType.start.length).trim()}`;
-      } else {
-        // are we in the middle of a multiline comment like "/*"
-        if (trimmedLine.endsWith(lastChunk.commentType.final)) {
-          if (trimmedLine.length > lastChunk.commentType.final.length) {
-            lastChunk.content += `\n${trimmedLine
-              .substr(
-                lastChunk.commentType.inner.length,
-                trimmedLine.length - lastChunk.commentType.final.length
-              )
-              .trim()}`;
-          }
-        } else if (trimmedLine.startsWith(lastChunk.commentType.inner)) {
-          lastChunk.content += `\n${trimmedLine.substr(lastChunk.commentType.inner.length).trim()}`;
-        } else if (trimmedLine.startsWith(lastChunk.commentType.start)) {
-          lastChunk.content += `\n${trimmedLine.substr(lastChunk.commentType.start.length).trim()}`;
-        }
-      }
-    }
+//       if (lastChunk.commentType.singleLine) {
+//         // is it a continuation of a comment like "//"
+//         lastChunk.content += `\n${trimmedLine.substr(lastChunk.commentType.start.length).trim()}`;
+//       } else {
+//         // are we in the middle of a multiline comment like "/*"
+//         if (trimmedLine.endsWith(lastChunk.commentType.final)) {
+//           if (trimmedLine.length > lastChunk.commentType.final.length) {
+//             lastChunk.content += `\n${trimmedLine
+//               .substr(
+//                 lastChunk.commentType.inner.length,
+//                 trimmedLine.length - lastChunk.commentType.final.length
+//               )
+//               .trim()}`;
+//           }
+//         } else if (trimmedLine.startsWith(lastChunk.commentType.inner)) {
+//           lastChunk.content += `\n${trimmedLine.substr(lastChunk.commentType.inner.length).trim()}`;
+//         } else if (trimmedLine.startsWith(lastChunk.commentType.start)) {
+//           lastChunk.content += `\n${trimmedLine.substr(lastChunk.commentType.start.length).trim()}`;
+//         }
+//       }
+//     }
 
-    // Reflow each chunk.
-    let result: string[] = [];
+//     // Reflow each chunk.
+//     let result: string[] = [];
 
-    for (const { commentType, content, indentLevelAfterComment } of chunksToReflow) {
-      let lines: string[];
-      const indentAfterComment = Array(indentLevelAfterComment + 1).join(' ');
+//     for (const { commentType, content, indentLevelAfterComment } of chunksToReflow) {
+//       let lines: string[];
+//       const indentAfterComment = Array(indentLevelAfterComment + 1).join(' ');
 
-      if (commentType.singleLine) {
-        lines = [``];
-      } else {
-        lines = [``, ``];
-      }
+//       if (commentType.singleLine) {
+//         lines = [``];
+//       } else {
+//         lines = [``, ``];
+//       }
 
-      // This tracks if we're pushing the first line of a chunk. If so, then we
-      // don't want to add an extra space. In addition, when there's a blank
-      // line, this needs to be reset.
-      let curIndex = 0;
-      for (const line of content.trim().split('\n')) {
-        // Preserve newlines.
+//       // This tracks if we're pushing the first line of a chunk. If so, then we
+//       // don't want to add an extra space. In addition, when there's a blank
+//       // line, this needs to be reset.
+//       let curIndex = 0;
+//       for (const line of content.trim().split('\n')) {
+//         // Preserve newlines.
 
-        if (line.trim() === '') {
-          for (let i = 0; i < 2; i++) {
-            lines.push(``);
-          }
-          curIndex = 0;
+//         if (line.trim() === '') {
+//           for (let i = 0; i < 2; i++) {
+//             lines.push(``);
+//           }
+//           curIndex = 0;
 
-          continue;
-        }
+//           continue;
+//         }
 
-        // Add word by word, wrapping when necessary.
-        const words = line.split(/\s+/);
-        for (let i = 0; i < words.length; i++) {
-          const word = words[i];
-          if (word === '') {
-            continue;
-          }
+//         // Add word by word, wrapping when necessary.
+//         const words = line.split(/\s+/);
+//         for (let i = 0; i < words.length; i++) {
+//           const word = words[i];
+//           if (word === '') {
+//             continue;
+//           }
 
-          if (lines[lines.length - 1].length + word.length + 1 < maximumLineLength) {
-            if (curIndex === 0 && i === 0) {
-              lines[lines.length - 1] += `${word}`;
-            } else {
-              lines[lines.length - 1] += ` ${word}`;
-            }
-          } else {
-            lines.push(`${word}`);
-          }
-        }
-        curIndex++;
-      }
+//           if (lines[lines.length - 1].length + word.length + 1 < maximumLineLength) {
+//             if (curIndex === 0 && i === 0) {
+//               lines[lines.length - 1] += `${word}`;
+//             } else {
+//               lines[lines.length - 1] += ` ${word}`;
+//             }
+//           } else {
+//             lines.push(`${word}`);
+//           }
+//         }
+//         curIndex++;
+//       }
 
-      if (!commentType.singleLine) {
-        lines.push(``);
-      }
+//       if (!commentType.singleLine) {
+//         lines.push(``);
+//       }
 
-      if (commentType.singleLine) {
-        if (lines.length > 1 && lines[0].trim() === '') {
-          lines = lines.slice(1);
-        }
-        if (lines.length > 1 && lines[lines.length - 1].trim() === '') {
-          lines = lines.slice(0, -1);
-        }
-      }
+//       if (commentType.singleLine) {
+//         if (lines.length > 1 && lines[0].trim() === '') {
+//           lines = lines.slice(1);
+//         }
+//         if (lines.length > 1 && lines[lines.length - 1].trim() === '') {
+//           lines = lines.slice(0, -1);
+//         }
+//       }
 
-      for (let i = 0; i < lines.length; i++) {
-        if (commentType.singleLine) {
-          lines[i] = `${indent}${commentType.start}${indentAfterComment}${lines[i]}`;
-        } else {
-          if (i === 0) {
-            lines[i] = `${indent}${commentType.start} ${lines[i]}`;
-          } else if (i === lines.length - 1) {
-            lines[i] = `${indent} ${commentType.final}`;
-          } else {
-            lines[i] = `${indent} ${commentType.inner} ${lines[i]}`;
-          }
-        }
-      }
+//       for (let i = 0; i < lines.length; i++) {
+//         if (commentType.singleLine) {
+//           lines[i] = `${indent}${commentType.start}${indentAfterComment}${lines[i]}`;
+//         } else {
+//           if (i === 0) {
+//             lines[i] = `${indent}${commentType.start} ${lines[i]}`;
+//           } else if (i === lines.length - 1) {
+//             lines[i] = `${indent} ${commentType.final}`;
+//           } else {
+//             lines[i] = `${indent} ${commentType.inner} ${lines[i]}`;
+//           }
+//         }
+//       }
 
-      result = result.concat(lines);
-    }
+//       result = result.concat(lines);
+//     }
 
-    // Gather up multiple empty lines into single empty lines.
-    return result.join('\n');
-  }
+//     // Gather up multiple empty lines into single empty lines.
+//     return result.join('\n');
+//   }
 
-  public async run(vimState: VimState, start: Position, end: Position): Promise<VimState> {
-    start = Position.EarlierOf(start, end);
-    end = Position.LaterOf(start, end);
+//   public async run(vimState: VimState, start: Position, end: Position): Promise<VimState> {
+//     start = Position.EarlierOf(start, end);
+//     end = Position.LaterOf(start, end);
 
-    let textToReflow = TextEditor.getText(new vscode.Range(start, end));
-    let indent = this.getIndentation(textToReflow);
+//     let textToReflow = TextEditor.getText(new vscode.Range(start, end));
+//     let indent = this.getIndentation(textToReflow);
 
-    textToReflow = this.reflowParagraph(textToReflow, indent);
+//     textToReflow = this.reflowParagraph(textToReflow, indent);
 
-    vimState.recordedState.transformations.push({
-      type: 'replaceText',
-      text: textToReflow,
-      start: start,
-      end: end,
-      // Move cursor to front of line to realign the view
-      diff: PositionDiff.NewBOLDiff(0, 0),
-    });
+//     vimState.recordedState.transformations.push({
+//       type: 'replaceText',
+//       text: textToReflow,
+//       start: start,
+//       end: end,
+//       // Move cursor to front of line to realign the view
+//       diff: PositionDiff.NewBOLDiff(0, 0),
+//     });
 
-    await vimState.setCurrentMode(ModeName.Normal);
+//     await vimState.setCurrentMode(ModeName.Normal);
 
-    return vimState;
-  }
-}
+//     return vimState;
+//   }
+// }
